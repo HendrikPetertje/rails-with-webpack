@@ -27,3 +27,9 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+
+# Webpack ignored files
+/public/frontend
+/public/frontend/*
+
+/config/webpack/pointers/*.txt
