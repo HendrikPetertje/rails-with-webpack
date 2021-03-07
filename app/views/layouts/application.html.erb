@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>WebpackApp</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag    'application', media: 'all' %>
+    <script src="<%= webpack_js_path %>"></script>
+  </head>
+
+  <body>
+    <%= yield %>
+    <div class="someNamedDiv"></div>
+  </body>
+</html>
