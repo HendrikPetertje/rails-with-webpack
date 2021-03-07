@@ -254,6 +254,10 @@ And with that you're done. Execute `bin/wrails` to start hacking!
 PS: Check the last lines of my `.gitignore` to learn how to deal with all these
 new files. you probably don't want to commit your build output or pointer.txt.
 
+### Bonus: Insert webpack in assets:precompile
+Check the `lib/tasks/before_assets_precompile.rake` file to see how I'm
+injecting webpack asset building into `rails assets:precompile`
+
 ## Install and use this project instead
 
 execute the following commands (assuming you have ruby & yarn installed on your
@@ -272,16 +276,13 @@ bin/wrails
 
 ## Building for production
 
-I haven't gone through the hoops yet to insert the webpack build script in my
-rails precompiler. So you'll need to do that yourself (if you use Heroku for
-your deployments, you will need to insert the build script in your precompiler
-to avoid having to create your own heroku buildpack)
+Since the build script is included in the asset:precompile hook, running that
+should suffice to get your project compiled for production
 
 Execute:
 
 ```
 bin/rails assets:precompile
-./scripts/webpack_build.sh
 ```
 
 And then execute the rest of your build scripts (If you use docker, put this
