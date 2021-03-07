@@ -180,7 +180,7 @@ overwrite everything but the readme
 ```
 
 From here it's quite simple.
-We remove (or divide the generated webpack.config.js file into a development and
+We remove (or divide) the generated webpack.config.js file into a development and
 a production file.
 
 In development we want to run a dev-server and output our files to the rails tmp
