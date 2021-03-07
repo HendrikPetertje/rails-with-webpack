@@ -3,7 +3,7 @@
 One of the front-enders in my development project kept complaining about the
 fact that we are using Webpacker to leverage Javascript, CSS and images in our
 project. Webpacker is pretty awesome but it adds a lot of extra stuff to the
-webpacker configuration, it turns the configuration into a murky yaml file and
+default webpack configuration, it turns the configuration into a murky yaml file and
 rails tends to run all kinds of own scripts on top of webpack like rails' native
 uglifier and the likes.
 
