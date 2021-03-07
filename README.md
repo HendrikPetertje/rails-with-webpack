@@ -232,8 +232,8 @@ For this step you will need to install "HTTParty" in your Gemfile. Check mine to
 see what versions I'm using.
 
 We'll check if our server is running on development or test and if so if the
-application.js on localhost port 3035 (webpack-dev-server) is reachable.
-If so we link our `<script src>` to the webpack-dev-server. If not, we'll serve
+application.js on localhost port 3035 (webpack-dev-server) is reachable, then
+we link our `<script src>` to the webpack-dev-server. If not, we'll serve
 the application.js from our pointer. If neither are available we'll throw an
 error telling the user to enable either one of the two.
 
@@ -255,6 +255,7 @@ PS: Check the last lines of my `.gitignore` to learn how to deal with all these
 new files. you probably don't want to commit your build output or pointer.txt.
 
 ### Bonus: Insert webpack in assets:precompile
+
 Check the `lib/tasks/before_assets_precompile.rake` file to see how I'm
 injecting webpack asset building into `rails assets:precompile`
 
