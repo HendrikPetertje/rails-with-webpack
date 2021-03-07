@@ -245,8 +245,11 @@ project to get a feel on how I did this.
 
 And with that you're done. Execute `bin/wrails` to start hacking!
 
+PS: Check the last lines of my `.gitignore` to learn how to deal with all these
+new files. you probably don't want to commit your build output or pointer.txt.
 
 ## Install and use this project instead
+
 execute the following commands (assuming you have ruby & yarn installed on your
 computer)
 
@@ -262,6 +265,7 @@ bin/wrails
 ```
 
 ## Building for production
+
 I haven't gone through the hoops yet to insert the webpack build script in my
 rails precompiler. So you'll need to do that yourself (if you use Heroku for
 your deployments, you will need to insert the build script in your precompiler
