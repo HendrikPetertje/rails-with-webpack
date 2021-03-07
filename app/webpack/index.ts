@@ -1,4 +1,4 @@
 import './test.scss';
-import helloWorld from './helloWorld';
+import helloWorld from './services/helloWorld';
 
 helloWorld();

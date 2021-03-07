@@ -20,6 +20,10 @@ Buckle up and strap in!
 
 ## Create a new rails project with vanilla webpack
 
+(how to replicate this repo)
+
+### Bootstrap
+
 Install rails and generate a new rails app
 
 ```
@@ -142,7 +146,6 @@ In `app/webpack/index.ts` insert:
 
 ```
 import helloWorld from './helloWorld';
-
 helloWorld();
 ```
 
@@ -172,3 +175,107 @@ Overwrite package.json? (ynaxdH) Y
 ...
 overwrite everything but the readme
 ```
+
+From here it's quite simple.
+We remove (or divide the generated webpack.config.js file into a development and
+a production file.
+
+In development we want to run a dev-server and output our files to the rails tmp
+directory. Check out `webpack.config.dev.js` to see how I set it up.
+
+In production we want to minify as much as possible and add a content-hash to
+our file name to make sure we aren't running into troubles with the caches of
+our users. The build should be placed in rails public folder (static assets
+directory in RoR). Check out `webpack.config.prod.js` to see how I set it up.
+
+### The last 3 things we need to deal with now are:
+
+- When building put a pointer in place to tell rails where to find the latest
+  `application-[hash].js`
+- Read the pointer when starting the rails server
+- Put a piece of logic in place to link Rails HTML to the `application-[hash].js`
+  from our pointer.
+- create a `bin/wrails` script to boot up our dev env.
+
+#### We start with build.
+
+Create a new list of directories and a `.keep`-file called
+`config/webpack/pointers/.keep`. We'll use this folder to insert pointers.
+
+With that done, we need to update our package.json to have the correct build and
+serve scripts. Check `package.json` for the correct logic.
+
+Lastly we'll need a build script. Check out `scripts/webpack_build.sh` for an OK
+example. In the last step of this build script the name of the
+application-[hash].js is read from public/frontend and then inserted in a txt
+file in `config/webpack/pointers`. We'll use this pointer in the next step
+
+You can now run this build script before or after `rails assets:precompile` to
+bundle your Webpack shenanigans.
+
+#### Reading the pointer on application-up
+
+For this I went the easiest step possible. I simply read the pointer from the
+disk when the rails server boots up and set it as a global application
+configuration. Check out `config/initializers/webpack_application_file.rb` to
+see how I achieved this.
+
+#### Put a piece of logic in place to load the correct application.js
+
+For this step you will need to install "HTTParty" in your Gemfile. Check mine to
+see what versions I'm using.
+
+We'll check if our server is running on development or test and if so if the
+application.js on localhost port 3035 (webpack-dev-server) is reachable.
+If so we link our `<script src>` to the webpack-dev-server. If not, we'll serve
+the application.js from our pointer. If neither are available we'll throw an
+error telling the user to enable either one of the two.
+
+Check `app/helpers/application_helper.rb` and
+`app/views/layouts/application.html.erb` to see how I implemented this.
+
+### Create a bin/wrails script to boot both rails and webpack in dev
+
+For this step you will need to install "foreman" in your Gemfile. check mine to
+see what versions I'm using.
+
+We'll insert a new script in `bin` to start foreman with a development Procfile.
+Check `bin/wrails` (don't forget to `chmod +x` yours) and `Procfile.dev` in my
+project to get a feel on how I did this.
+
+And with that you're done. Execute `bin/wrails` to start hacking!
+
+
+## Install and use this project instead
+execute the following commands (assuming you have ruby & yarn installed on your
+computer)
+
+```
+bundle install
+yarn install
+```
+
+To start the server in development simply execute
+
+```
+bin/wrails
+```
+
+## Building for production
+I haven't gone through the hoops yet to insert the webpack build script in my
+rails precompiler. So you'll need to do that yourself (if you use Heroku for
+your deployments, you will need to insert the build script in your precompiler
+to avoid having to create your own heroku buildpack)
+
+Execute:
+
+```
+bin/rails assets:precompile
+./scripts/webpack_build.sh
+```
+
+And then execute the rest of your build scripts (If you use docker, put this
+step in your `Dockerfile`)
+
+From there your production instance can simply run `RAILS_ENV=production bin/rails s`
+or passenger or puma or whatever.
