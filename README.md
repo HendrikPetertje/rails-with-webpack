@@ -1,15 +1,16 @@
 # Webpack test app
 
-This is a test app that utilizes webpack without the Webpacker gem.
+One of the front-enders in my development project kept complaining about the
+fact that we are using Webpacker to leverage Javascript, CSS and images in our
+project. Webpacker is pretty awesome but it adds a lot of extra stuff to the
+webpacker configuration, it turns the configuration into a murky yaml file and
+rails tends to run all kinds of own scripts on top of webpack like rails' native
+uglifier and the likes.
+
+So this is a test app that utilizes webpack without the Webpacker gem.
 The target of this project is to try out mixing vanilla Webpack with rails.
 
-In previous projects where both Webpack and Sprockets do their thing I noticed
-that it's hard to contain one javascript compiler (uglifier running on both
-sprockets and webpack, ruby generating webpack config and lots of automatically
-added plugins and configs that are hard to work with when dealing with specific
-frameworks).
-
-The target of this Readme is to go over
+In this README I'll go over:
 
 - How to install Webpack in a brand new rails project
 - How to run the rails project in development/test server mode (using rspec &
@@ -20,7 +21,7 @@ Buckle up and strap in!
 
 ## Create a new rails project with vanilla webpack
 
-(how to replicate this repo)
+(how to replicate the crazyness in this repo)
 
 ### Bootstrap
 
@@ -54,6 +55,9 @@ bin/rails db:create
 ```
 
 Initialize NodeJS and install Webpack (with typescript) dependencies
+(these steps are semi-not-needed as webpack-cli will replace our package.json),
+but I've noticed the npx webpack-cli script to be finnicy, so I'll include these
+steps anyway.
 
 ```
 npm init --y
@@ -187,6 +191,9 @@ In production we want to minify as much as possible and add a content-hash to
 our file name to make sure we aren't running into troubles with the caches of
 our users. The build should be placed in rails public folder (static assets
 directory in RoR). Check out `webpack.config.prod.js` to see how I set it up.
+
+Lastly, you might want to re-add the config bits index.ts, since webpack
+probably removed those.
 
 ### The last 3 things we need to deal with now are:
 
