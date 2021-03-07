@@ -33,3 +33,4 @@
 /public/frontend/*
 
 /config/webpack/pointers/*.txt
+/node_modules
