@@ -13,8 +13,7 @@ The target of this project is to try out mixing vanilla Webpack with rails.
 In this README I'll go over:
 
 - How to install Webpack in a brand new rails project
-- How to run the rails project in development/test server mode (using rspec &
-  capybara)
+- How to run the rails project in development/test server mode
 - How to compile for production.
 
 Buckle up and strap in!
